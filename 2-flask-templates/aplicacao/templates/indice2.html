@@ -1,0 +1,16 @@
+
+<html>
+  <head>
+    {% if titulo %}
+    <title>{{ titulo }} - microblog</title>
+    {% else %}
+    <title>Seja Bemvindo ao microblog</title>
+    {% endif %}
+  </head>
+  <body>
+    <h1>Olá, {{ parametro_usuario.nome_usuario }}!</h1>
+    {% for contador_vetor in parametro_matriz_postagem %}
+    <div><p>{{ contador_vetor.autor.primeiro_nome }} diz o seguinte: <b>{{ contador_vetor.corpo }}</b></p></div>
+    {% endfor %}
+  </body>
+</html>

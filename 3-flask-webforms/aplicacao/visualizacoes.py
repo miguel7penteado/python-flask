@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
-
-from flask     import render_template
-from aplicacao import variavel_aplicacao
+from flask        import render_template, flash, redirect
+from aplicacao    import variavel_aplicacao
+from .formularios import FormularioAutenticacao
 
 @variavel_aplicacao.route('/')
 @variavel_aplicacao.route('/indice')
@@ -30,3 +30,19 @@ def indice2():
         }
     ]
     return render_template("indice2.html", title='Pagina Principal 2', parametro_usuario=usuario_sessao, parametro_matriz_postagem=matriz_postagem)
+
+@variavel_aplicacao.route('/autenticacao', methods=['GET', 'POST'])
+def autenticar():
+    conseguiu_autenticar=None	 
+    formulario = FormularioAutenticacao()
+    if ( formulario.validate_on_submit() ):
+        flash('Requisicao para campo_identificacao="%s", campo_lembre_me=%s' % (formulario.campo_identificacao.data, str(formulario.campo_lembre_me.data)))
+        conseguiu_autenticar=True
+    else:
+        conseguiu_autenticar=False
+    if (conseguiu_autenticar):
+        return redirect('/indice')
+    else:
+        return render_template('autenticar.html', title='Autentique-se',parametro_formulario=formulario)
+
+
