@@ -1,0 +1,15 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Autenticar</h1>
+  <form action="" method="post" name="autenticar">
+      {{ parametro_formulario.hidden_tag() }}
+      <p>
+          Por favor entre com sua identificação:<br>
+          {{ parametro_formulario.campo_identificacao(size=80) }}<br>
+      </p>
+      <p>{{  parametro_formulario.campo_lembre_me }} Lembre-me</p>
+      <p><input type="submit" value="Autenticar"></p>
+  </form>
+{% endblock %}

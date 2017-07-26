@@ -1,0 +1,10 @@
+
+
+{% extends "base.html" %}
+{% block content %}
+    <h1>Olá, {{ parametro_usuario.primeiro_nome }}!</h1>
+    {% for contador_vetor in parametro_matriz_postagem %}
+    <div><p>{{ contador_vetor.autor.primeiro_nome }} diz o seguinte: <b>{{ contador_vetor.corpo }}</b></p></div>
+    {% endfor %}
+{% endblock %}
+
