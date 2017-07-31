@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
-from flask     import render_template, flash, redirect, jsonify, abort
+from flask     import render_template, flash, redirect, jsonify, abort, make_response
 from aplicacao import variavel_aplicacao
 
 
@@ -32,3 +32,7 @@ def lista_produto_por_codigo(codigo_produto):
     if len(produto) == 0:
         abort(404)
     return jsonify({'produto': produto[0]})
+
+@variavel_aplicacao.errorhandler(404)
+def nao_encontrado(erro):
+    return make_response(jsonify({'erro': 'Produto nao encontrado'}), 404)
