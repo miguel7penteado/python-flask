@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
-from flask     import render_template, flash, redirect, jsonify, abort, make_response
+from flask     import render_template, flash, redirect, jsonify, abort, make_response, request
 from aplicacao import variavel_aplicacao
 
 
 tabela_produtos = [
     {
         'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
+        'titulo': u'Padaria',
+        'descricao': u'Pão, Coppa, Azeite, Frutas, Suco', 
+        'disponivel': False
     },
     {
         'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web', 
-        'done': False
+        'titulo': u'Limpeza',
+        'descricao': u'Sabao, Água Sanitária', 
+        'disponivel': False
     }
 ]
 
@@ -36,3 +36,20 @@ def lista_produto_por_codigo(codigo_produto):
 @variavel_aplicacao.errorhandler(404)
 def nao_encontrado(erro):
     return make_response(jsonify({'erro': 'Produto nao encontrado'}), 404)
+
+@variavel_aplicacao.route('/todo/api/v1.0/produtos', methods=['POST'])
+def inserir_produto():
+    if ( (not request.json) or (not 'titulo') in request.json ):
+        abort(400)
+    produto = {
+        'id': tabela_produtos[-1]['id'] + 1,
+        'titulo': request.json['titulo'],
+        'descricao': request.json.get('descricao', ""),
+        'disponivel': False
+    }
+    tabela_produtos.append(produto)
+    return jsonify({'produto': produto}), 201
+
+    '''
+    curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"Livros"}' http://localhost:5000/todo/api/v1.0/produtos
+    '''
