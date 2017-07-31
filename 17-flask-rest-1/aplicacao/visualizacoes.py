@@ -70,11 +70,17 @@ def atualiza_produto(codigo_produto):
     produto[0]['descricao'] = request.json.get('descricao', produto[0]['descricao'])
     produto[0]['disponivel'] = request.json.get('disponivel', produto[0]['disponivel'])
     return jsonify({'produto': produto[0]})
+'''
+curl -i -H "Content-Type: application/json" -X PUT -d '{"disponivel":true}' http://localhost:5000/todo/api/v1.0/produtos/2
+'''
 
 @variavel_aplicacao.route('/todo/api/v1.0/produtos/<int:codigo_produto>', methods=['DELETE'])
-def apaga_produto(parametro_codigo_produto):
-    produto = [produto for produto in tabela_produtos if produto['id'] == parametro_codigo_produto]
+def apaga_produto(codigo_produto):
+    produto = [produto for produto in tabela_produtos if produto['id'] == codigo_produto]
     if len(produto) == 0:
         abort(404)
     tabela_produtos.remove(produto[0])
     return jsonify({'result': True})
+'''
+curl -i -H "Content-Type: application/json" -X DELETE  http://localhost:5000/todo/api/v1.0/produtos/2
+'''
